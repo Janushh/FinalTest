@@ -1,0 +1,20 @@
+services:
+  oracle:
+    container_name: app
+    image: 'gvenzl/oracle-free:latest'
+    ports:
+      - '1521:1521'
+    volumes:
+      - ./oracle:/docker-entrypoint-initdb.d/
+      - ./db-data/app:/opt/oracle/oradata
+    environment:
+      ORACLE_PASSWORD: systempass
+      ORACLE_DATABASE: APP
+      APP_USER: APP
+      APP_USER_PASSWORD: pass
+      TARGET_PDB: APP
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      retries: 10
+      timeout: 5s

@@ -1,0 +1,127 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: jjanushk
+      changes:
+        - createTable:
+            tableName: patients
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: surname
+                  type: VARCHAR(100)
+              - column:
+                  name: age
+                  type: INT
+              - column:
+                  name: pesel
+                  type: VARCHAR(11)
+
+        - createTable:
+            tableName: doctors
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: surname
+                  type: VARCHAR(100)
+              - column:
+                  name: specialization
+                  type: VARCHAR(100)
+              - column:
+                  name: pesel
+                  type: VARCHAR(11)
+              - column:
+                  name: age
+                  type: INT
+
+        - createTable:
+            tableName: appointments
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: patient_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: doctor_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dates
+                  type: TIMESTAMP
+
+        - createTable:
+            tableName: admins
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: surname
+                  type: VARCHAR(100)
+              - column:
+                  name: pesel
+                  type: VARCHAR(11)
+              - column:
+                  name: login
+                  type: VARCHAR(100)
+              - column:
+                  name: password
+                  type: VARCHAR(100)
+
+        - createTable:
+            tableName: actions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created_by
+                  type: BIGINT
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+              - column:
+                  name: action_type
+                  type: VARCHAR(100)
+              - column:
+                  name: field_name
+                  type: VARCHAR(100)
+              - column:
+                  name: old_value
+                  type: TEXT
+              - column:
+                  name: new_value
+                  type: TEXT

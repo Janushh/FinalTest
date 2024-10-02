@@ -1,0 +1,21 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+    show_sql: true
+
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+    username: APP
+    password: pass
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    clear-checksums: true
+jwt:
+  secret: Tz96vpCg56oscofmU1yYc1zZdJRH+AHjg6c+ZGpivQc26QxBJDWJapIiYJaJO/jTwIMILabm7s77AcR1l26YOg==
