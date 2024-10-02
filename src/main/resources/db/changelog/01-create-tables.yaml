@@ -70,7 +70,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: dates
+                  name: date
                   type: TIMESTAMP
 
         - createTable:

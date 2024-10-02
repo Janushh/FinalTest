@@ -1,20 +1,17 @@
+version: '3.8'
 services:
-  oracle:
-    container_name: app
-    image: 'gvenzl/oracle-free:latest'
-    ports:
-      - '1521:1521'
-    volumes:
-      - ./oracle:/docker-entrypoint-initdb.d/
-      - ./db-data/app:/opt/oracle/oradata
+  postgres:
+    image: postgres:15
+    container_name: app-db
     environment:
-      ORACLE_PASSWORD: systempass
-      ORACLE_DATABASE: APP
-      APP_USER: APP
-      APP_USER_PASSWORD: pass
-      TARGET_PDB: APP
+      POSTGRES_USER: APP
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: APP
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "healthcheck.sh"]
+      test: ["CMD-SHELL", "pg_isready -U APP"]
       interval: 10s
-      retries: 10
-      timeout: 5s
+      retries: 5
