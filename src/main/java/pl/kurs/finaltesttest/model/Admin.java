@@ -18,6 +18,6 @@ public class Admin {
     private String login;
     private String password;
 
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "createdBy")
     private List<Action> actions;
 }

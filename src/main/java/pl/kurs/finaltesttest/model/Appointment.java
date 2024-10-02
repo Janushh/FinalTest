@@ -21,5 +21,6 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    private LocalDateTime date;
+    @Column(name = "appointment_date", nullable = false) // Zmieniona nazwa kolumny
+    private LocalDateTime date; // Zmieniona nazwa pola
 }

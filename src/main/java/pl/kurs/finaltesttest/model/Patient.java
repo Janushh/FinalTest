@@ -16,6 +16,7 @@ public class Patient {
     private String surname;
     private int age;
     private String pesel;
+    private boolean isLocked;
 
     @OneToMany(mappedBy = "patient")
     private List<Appointment> appointments;
