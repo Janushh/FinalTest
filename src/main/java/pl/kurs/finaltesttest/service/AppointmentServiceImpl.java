@@ -16,7 +16,6 @@ import pl.kurs.finaltesttest.repository.PatientRepository;
 import org.slf4j.Logger;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 
 @Service
