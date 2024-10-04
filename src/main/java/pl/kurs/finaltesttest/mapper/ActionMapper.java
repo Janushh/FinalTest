@@ -7,5 +7,6 @@ import pl.kurs.finaltesttest.model.Action;
 @Mapper(componentModel = "spring")
 public interface ActionMapper {
     ActionDTO toDto(Action action);
+
     Action toEntity(ActionDTO actionDto);
 }

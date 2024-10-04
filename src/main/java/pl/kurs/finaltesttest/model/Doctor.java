@@ -7,17 +7,14 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "doctors")
-public class Doctor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@DiscriminatorValue("DOCTOR")
+public class Doctor extends User {
     private String name;
     private String surname;
     private String specialization;
     private String pesel;
     private int age;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointments;
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ActionDTO {
     private Long id;
-    private Long adminId; // ID administratora
+    private Long adminId;
     private String actionType;
     private String fieldName;
     private String oldValue;

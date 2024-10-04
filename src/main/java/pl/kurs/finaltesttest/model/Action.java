@@ -15,7 +15,8 @@ public class Action {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "created_by", nullable = false)
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
+
     private Admin createdBy;
 
     @CreatedDate

@@ -4,7 +4,7 @@ databaseChangeLog:
       author: jjanushk
       changes:
         - createTable:
-            tableName: patients
+            tableName: users
             columns:
               - column:
                   name: id
@@ -13,43 +13,26 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: name
-                  type: VARCHAR(100)
-              - column:
-                  name: surname
-                  type: VARCHAR(100)
-              - column:
-                  name: age
-                  type: INT
-              - column:
-                  name: pesel
-                  type: VARCHAR(11)
-
-        - createTable:
-            tableName: doctors
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
+                  name: username
+                  type: VARCHAR(255)
                   constraints:
-                    primaryKey: true
+                    nullable: false
+                    unique: true
               - column:
-                  name: name
-                  type: VARCHAR(100)
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
               - column:
-                  name: surname
-                  type: VARCHAR(100)
-              - column:
-                  name: specialization
-                  type: VARCHAR(100)
-              - column:
-                  name: pesel
-                  type: VARCHAR(11)
-              - column:
-                  name: age
-                  type: INT
+                  name: role
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
 
+  - changeSet:
+      id: 2
+      author: jjanushk
+      changes:
         - createTable:
             tableName: appointments
             columns:
@@ -63,41 +46,39 @@ databaseChangeLog:
                   name: patient_id
                   type: BIGINT
                   constraints:
+                    foreignKeyName: fk_appointments_patient
+                    references: users(id)
                     nullable: false
               - column:
                   name: doctor_id
                   type: BIGINT
                   constraints:
+                    foreignKeyName: fk_appointments_doctor
+                    references: users(id)
                     nullable: false
               - column:
-                  name: date
+                  name: appointment_date
                   type: TIMESTAMP
-
-        - createTable:
-            tableName: admins
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
                   constraints:
-                    primaryKey: true
+                    nullable: false
               - column:
-                  name: name
-                  type: VARCHAR(100)
-              - column:
-                  name: surname
-                  type: VARCHAR(100)
-              - column:
-                  name: pesel
-                  type: VARCHAR(11)
-              - column:
-                  name: login
-                  type: VARCHAR(100)
-              - column:
-                  name: password
-                  type: VARCHAR(100)
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 3
+      author: jjanushk
+      changes:
+        - addUniqueConstraint:
+            tableName: appointments
+            columnNames: doctor_id, appointment_date
+            constraintName: unique_doctor_appointment_date
 
+  - changeSet:
+      id: 4
+      author: jjanushk
+      changes:
         - createTable:
             tableName: actions
             columns:
@@ -110,15 +91,23 @@ databaseChangeLog:
               - column:
                   name: created_by
                   type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_actions_created_by
+                    references: users(id)
+                    nullable: false
               - column:
                   name: created_date
                   type: TIMESTAMP
+                  constraints:
+                    nullable: false
               - column:
                   name: action_type
-                  type: VARCHAR(100)
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
               - column:
                   name: field_name
-                  type: VARCHAR(100)
+                  type: VARCHAR(255)
               - column:
                   name: old_value
                   type: TEXT

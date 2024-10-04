@@ -46,10 +46,6 @@ public class JwtServiceImpl implements JwtService {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512).compact();
     }
 
-    private Date extractExpiration(String token) {
-        return getClaimsFromToken(token).getExpiration();
-    }
-
     private boolean isTokenExpired(String token) {
         return getClaimsFromToken(token).getExpiration().before(new Date());
     }

@@ -12,5 +12,4 @@ public class AppointmentDTO {
     private Long patientId;
     private Long doctorId;
     private LocalDateTime date;
-
 }

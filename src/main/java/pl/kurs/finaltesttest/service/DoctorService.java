@@ -1,43 +1,23 @@
 package pl.kurs.finaltesttest.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import pl.kurs.finaltesttest.dto.AppointmentDTO;
 import pl.kurs.finaltesttest.dto.DoctorDTO;
-import pl.kurs.finaltesttest.exception.ResourceNotFoundException;
-import pl.kurs.finaltesttest.mapper.DoctorMapper;
-import pl.kurs.finaltesttest.model.Doctor;
-import pl.kurs.finaltesttest.repository.DoctorRepository;
+import pl.kurs.finaltesttest.dto.PatientDTO;
 
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class DoctorService {
-    private final DoctorRepository doctorRepository;
-    private final DoctorMapper doctorMapper;
+public interface DoctorService {
+    DoctorDTO createDoctor(DoctorDTO doctorDto);
 
-    public DoctorDTO createDoctor(DoctorDTO doctorDto) {
-        Doctor doctor = doctorMapper.toEntity(doctorDto);
-        doctorRepository.save(doctor);
-        return doctorMapper.toDto(doctor);
-    }
+    DoctorDTO getDoctor(Long id);
 
-    public DoctorDTO getDoctor(Long id) {
-        return doctorRepository.findById(id)
-                .map(doctorMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Doktor nie znaleziony"));
-    }
+    void deleteDoctor(Long id);
 
-    public void deleteDoctor(Long id) {
-        doctorRepository.deleteById(id);
-    }
+    void updateDoctor(Long id, DoctorDTO doctorDto);
 
-    public void updateDoctor(Long id, DoctorDTO doctorDto) {
-        Doctor existingDoctor = doctorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Doktor nie znaleziony"));
-        existingDoctor.setName(doctorDto.getName());
-        existingDoctor.setSurname(doctorDto.getSurname());
-        existingDoctor.setSpecialization(doctorDto.getSpecialization());
-        existingDoctor.setAge(doctorDto.getAge());
-        doctorRepository.save(existingDoctor);
-    }
+    List<PatientDTO> getPatientsWithAppointments(Long doctorId);
+
+    List<AppointmentDTO> getAppointmentsByDoctor(Long doctorId);
+
+    void cancelAppointmentByDoctor(Long appointmentId, Long doctorId);
 }
