@@ -3,14 +3,11 @@ package pl.kurs.finaltesttest.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.kurs.finaltesttest.dto.AppointmentDTO;
 import pl.kurs.finaltesttest.exception.AccountLockedException;
 import pl.kurs.finaltesttest.exception.ResourceNotFoundException;
-import pl.kurs.finaltesttest.model.Patient;
 import pl.kurs.finaltesttest.service.AppointmentService;
-import pl.kurs.finaltesttest.service.AppointmentServiceImpl;
 import pl.kurs.finaltesttest.service.UserService;
 
 import java.util.function.Supplier;

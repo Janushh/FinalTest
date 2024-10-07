@@ -14,7 +14,6 @@ import pl.kurs.finaltesttest.model.*;
 import pl.kurs.finaltesttest.repository.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

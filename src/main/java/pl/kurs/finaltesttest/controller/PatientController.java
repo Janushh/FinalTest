@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.kurs.finaltesttest.dto.PatientDTO;
 import pl.kurs.finaltesttest.service.PatientService;
-import pl.kurs.finaltesttest.service.PatientServiceImpl;
 
 @RestController
 @RequiredArgsConstructor

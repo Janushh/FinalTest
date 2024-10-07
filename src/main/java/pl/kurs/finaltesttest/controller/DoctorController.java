@@ -7,7 +7,6 @@ import pl.kurs.finaltesttest.dto.AppointmentDTO;
 import pl.kurs.finaltesttest.dto.DoctorDTO;
 import pl.kurs.finaltesttest.dto.PatientDTO;
 import pl.kurs.finaltesttest.service.DoctorService;
-import pl.kurs.finaltesttest.service.DoctorServiceImpl;
 
 import java.util.List;
 
