@@ -8,4 +8,10 @@ public interface AppointmentService {
     void cancelAppointmentByPatient(Long appointmentId, Long patientId);
 
     void cancelAppointmentByDoctor(Long appointmentId, Long doctorId);
+
+    AppointmentDTO createAppointmentForLoggedInUser(AppointmentDTO appointmentDto, Long doctorId);
+
+    void cancelAppointmentForLoggedInUser(Long appointmentId);
+
+
 }

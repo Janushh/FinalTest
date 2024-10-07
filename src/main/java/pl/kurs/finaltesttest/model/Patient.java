@@ -6,6 +6,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Data
 @Entity
 @DiscriminatorValue("PATIENT")
@@ -17,13 +18,7 @@ public class Patient extends User {
     private boolean isLocked;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
-    public void setAppointments(List<Appointment> appointments) {
-        if (appointments == null) {
-            this.appointments = new ArrayList<>();
-        } else {
-            this.appointments = appointments;
-        }
-    }
 }
+

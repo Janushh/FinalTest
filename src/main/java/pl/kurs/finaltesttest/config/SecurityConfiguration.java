@@ -33,9 +33,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/appointments/**").hasRole("PATIENT")
-                        .requestMatchers("/api/admins/**").permitAll()
-                        .requestMatchers("/api/patients/**").permitAll()
-                        .requestMatchers("/api/doctors/**").permitAll()
+                        .requestMatchers("/api/admins/**").hasRole("ADMIN")
+                        .requestMatchers("/api/patients/**").hasRole("PATIENT")
+                        .requestMatchers("/api/doctors/**").hasRole("DOCTOR")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

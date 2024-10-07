@@ -30,12 +30,27 @@ public class PatientServiceImpl implements PatientService{
         patientRepository.deleteById(id);
     }
 
+    @Override
     public void updatePatient(Long id, PatientDTO patientDto) {
         Patient existingPatient = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-        existingPatient.setName(patientDto.getName());
-        existingPatient.setSurname(patientDto.getSurname());
-        existingPatient.setAge(patientDto.getAge());
+
+        if (patientDto.getName() != null) {
+            existingPatient.setName(patientDto.getName());
+        }
+
+        if (patientDto.getSurname() != null) {
+            existingPatient.setSurname(patientDto.getSurname());
+        }
+
+        if (patientDto.getAge() != null && patientDto.getAge() > 0) {
+            existingPatient.setAge(patientDto.getAge());
+        }
+
+        if (patientDto.getPesel() != null) {
+            existingPatient.setPesel(patientDto.getPesel());
+        }
+
         patientRepository.save(existingPatient);
     }
 }

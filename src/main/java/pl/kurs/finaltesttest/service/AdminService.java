@@ -12,11 +12,11 @@ import java.util.List;
 public interface AdminService {
     AdminDTO createAdmin(AdminDTO adminDto);
 
-    void lockUser(Long patientId, Long adminId);
+    void lockUser(Long patientId);
 
-    void unlockUser(Long patientId, Long adminId);
+    void unlockUser(Long patientId);
 
-    void changePatientLockStatus(Long patientId, Long adminId, boolean lockStatus, ActionType actionType);
+    void changePatientLockStatus(Long patientId, boolean lockStatus, ActionType actionType);
 
     void updateAppointmentStatus(Long appointmentId, String status, Long adminId);
 

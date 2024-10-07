@@ -25,9 +25,7 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<?> createAppointment(@RequestParam Long doctorId, @RequestBody AppointmentDTO appointmentDto) {
         return handleExceptions(() -> {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            Patient patient = userService.getPatientByUsername(username);
-            AppointmentDTO createdAppointment = appointmentService.createAppointment(appointmentDto, patient.getId(), doctorId);
+            AppointmentDTO createdAppointment = appointmentService.createAppointmentForLoggedInUser(appointmentDto, doctorId);
             return ResponseEntity.ok(createdAppointment);
         });
     }
@@ -35,9 +33,7 @@ public class AppointmentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long id) {
         return handleExceptions(() -> {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            Patient patient = userService.getPatientByUsername(username);
-            appointmentService.cancelAppointmentByPatient(id, patient.getId());
+            appointmentService.cancelAppointmentForLoggedInUser(id);
             return ResponseEntity.noContent().build();
         });
     }

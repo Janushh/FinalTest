@@ -2,6 +2,7 @@ package pl.kurs.finaltesttest.service;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.kurs.finaltesttest.dto.AppointmentDTO;
 import pl.kurs.finaltesttest.exception.AccountLockedException;
@@ -25,6 +26,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentMapper appointmentMapper;
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
+    private final UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(AppointmentServiceImpl.class);
 
     @Override
@@ -42,12 +44,25 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentMapper.toDto(appointmentRepository.save(appointment));
     }
 
+    public AppointmentDTO createAppointmentForLoggedInUser(AppointmentDTO appointmentDto, Long doctorId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Patient patient = userService.getPatientByUsername(username);
+        return createAppointment(appointmentDto, patient.getId(), doctorId);
+    }
+
     @Override
     public void cancelAppointmentByPatient(Long appointmentId, Long patientId) {
         Appointment appointment = validateAppointment(appointmentId);
         checkPatientAccessToAppointment(appointment, patientId);
         logAndDeleteAppointment(appointmentId, "Patient", patientId);
     }
+
+    public void cancelAppointmentForLoggedInUser(Long appointmentId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Patient patient = userService.getPatientByUsername(username);
+        cancelAppointmentByPatient(appointmentId, patient.getId());
+    }
+
 
     @Override
     public void cancelAppointmentByDoctor(Long appointmentId, Long doctorId) {

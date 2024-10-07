@@ -1,6 +1,7 @@
 package pl.kurs.finaltesttest.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.kurs.finaltesttest.dto.AdminDTO;
 import pl.kurs.finaltesttest.dto.DoctorDTO;
@@ -31,30 +32,42 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public AdminDTO createAdmin(AdminDTO adminDto) {
         Admin admin = adminMapper.toEntity(adminDto);
-        admin.setStatus(Optional.ofNullable(admin.getStatus()).orElse(AdminStatus.ACTIVE));
-        return adminMapper.toDto(adminRepository.save(admin));
+
+        if (admin.getStatus() == null) {
+            admin.setStatus(AdminStatus.ACTIVE);
+        }
+
+        Admin savedAdmin = adminRepository.save(admin);
+
+        return adminMapper.toDto(savedAdmin);
     }
 
     @Override
-    public void lockUser(Long patientId, Long adminId) {
-        changePatientLockStatus(patientId, adminId, true, ActionType.LOCKED);
+    public void lockUser(Long patientId) {
+        changePatientLockStatus(patientId, true, ActionType.LOCKED);
     }
 
     @Override
-    public void unlockUser(Long patientId, Long adminId) {
-        changePatientLockStatus(patientId, adminId, false, ActionType.UNLOCKED);
+    public void unlockUser(Long patientId) {
+        changePatientLockStatus(patientId, false, ActionType.UNLOCKED);
     }
 
-    public void changePatientLockStatus(Long patientId, Long adminId, boolean lockStatus, ActionType actionType) {
+    @Override
+    public void changePatientLockStatus(Long patientId, boolean lockStatus, ActionType actionType) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-        Admin admin = adminRepository.findById(adminId)
+
+        String currentAdminUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Admin admin = adminRepository.findByUsername(currentAdminUsername)
                 .orElseThrow(() -> new ResourceNotFoundException("Admin not found"));
 
         patient.setLocked(lockStatus);
         patientRepository.save(patient);
+
         logAction(actionType, patient.getPesel(), admin);
     }
+
 
     @Override
     public void updateAppointmentStatus(Long appointmentId, String status, Long adminId) {
@@ -107,5 +120,9 @@ public class AdminServiceImpl implements AdminService {
             throw new IllegalStateException("You cannot remove an admin who has actions assigned to him.");
         }
         adminRepository.delete(admin);
+    }
+
+    public String getCurrentAdminUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }
